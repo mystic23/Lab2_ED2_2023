@@ -6,8 +6,6 @@
 ['Tanzania', 'Dodoma', 'DOD', 0]
 ['Samoa', 'Apia', 'APW', 0]
 ['New Zealand', 'Wellington', 'WLG', 0]
-['Syria', 'Damascus', 'DAM', 0]
-['French Guiana', 'Cayenne', 'CAY', 0]
 ['Australia', 'Canberra', 'CBR', 0]
 ['Tuvalu', 'Funafuti', 'FUN', 0]
 ['Niue', 'Alofi', 'IUE', 0]
