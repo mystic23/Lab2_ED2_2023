@@ -18,7 +18,6 @@ class Grafo:
     """
     def __init__(self) -> None:
         self.vertices = {} # capital airports
-        self.guide = {} # links country to code
 
     def addAirport(self,line):
         """
@@ -27,43 +26,45 @@ class Grafo:
         Args:
             line(list):[contains info to create airport]
         """
-        self.vertices.update({line[3]:Airport(line)})
+        self.vertices.update({line[2].lower():Airport(line)})
         # add airport to dict
-        self.guide.update({line[2].lower():line[3]})
-        # add reference to guide
         
-    def addRoute(self,code1,code2):
+    def addRoute(self,country1,country2):
         """
         Adds an edge representing
         a route between 2 airports
 
         Args:
-            code1(str)[code of first airport]
-            code2(str)[code of second airport]
+            country1(str)[country of first airport]
+            country2(str)[country of second airport]
         """
-        coords1 = self[code1].coords
-        coords2 = self[code2].coords
+        coords1 = self[country1].coords
+        coords2 = self[country2].coords
         # save coordinates of each airport
-
-        country1 = self[code1].country
-        country2 = self[code2].country
-        # save country of each airport
 
         dist = distance_between2(coords1,coords2)
         # calculate distance
 
-        self[code1].routes.update({country2:dist})
-        self[code2].routes.update({country1:dist})
+        self[country1].routes.update({country2:dist})
+        self[country2].routes.update({country1:dist})
         # place target country and distance on each vertix
 
-    def getByCountry(self,country):
+    def deleteAirport(self,country):
         """
-        gets the Airport object with 
-        the country name using guide
+        Deletes an aiport from graph
+        and all routes to that country
+        
+        Args:
+            country(str):[country of airport to delete]
         """
-        #guide returns the code used by getitem
-        return self[self.guide[country.lower()]]
-    
+        adyacents = [country for country in self[country].routes.keys()]
+        # register all countries with routes to country to delete
+        del self.vertices[country] # delete vertix/airport
+
+        for ady in adyacents: 
+            del self[ady].routes[country]
+        # delete flights/edges
+
     def __getitem__(self,index):
         """
         dunder method to retrieve a vertex
@@ -74,8 +75,8 @@ class Airport:
     def __init__(self,line:list) -> None:
         self.name = line[0]
         self.city = line[1]
-        self.country = line[2]
-        self.IATA = line[3]
+        self.country = line[2].lower()
+        self.code = line[3] # IATA code
         self.coords = (line[4],line[5])
         self.routes = {}
 

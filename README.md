@@ -12,8 +12,8 @@ Algunos algortimos usados para facilitar el acceso a los datos y su comprensión
 ### **Conteo de paises repetidos**
 ```python
 countries = []
-for code,data in grafo.vertices.items():
-    countries.append(data.country)
+for country in grafo.vertices.keys():
+    countries.append(country)
 # guardamos los codigos IATA y los paises del grafo
 
 print([item for item, count in collections.Counter(countries).items() if count > 1])
@@ -21,9 +21,9 @@ print([item for item, count in collections.Counter(countries).items() if count >
 ### **Registro de aeropuertos sin rutas**
 ```python
 empty = []
-for code,airport in grafo.vertices.items():
-    if len(airport.routes) ==0:
-        empty.append([airport.country,airport.city,code,len(airport.routes)])
+for key,airport in grafo.vertices.items():
+    if len(airport.routes) == 0:
+        empty.append([key,airport.city,airport.code,len(airport.routes)])
 # recorremos grafo guardando información de aeropuertos sin adyacentes
 
 debug = open("data/empty_routes.txt","w",encoding="utf-8")
@@ -57,6 +57,8 @@ with open("country_routes.txt","w") as f:
 ```
 
 ## **Referencias**
-M. ChatGPT, "How to count repeated elements in dictionary," [Online]. Available: https://stackoverflow.com/questions/9432393/how-to-count-repeated-elements-in-the-dictionary-in-python.
+M. ChatGPT, "How to count repeated elements in dictionary," [Online]. Available: https://stackoverflow.com/questions/9432393/how-to-count-repeated-elements-in-the-dictionary-in-python. [Accessed: Mar. 21, 2023].
+
+M. Bing, "How to remove accents in python," Microsoft Bing Chatbot [Online]. Available: https://github.com/microsoft/bing-chatbot/blob/main/assistant.py. [Accessed: Mar. 20, 2023].
 
 AirLabs, "AirLabs Routes API documentation," [Online]. Available: https://airlabs.co/docs/routes.

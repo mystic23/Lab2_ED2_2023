@@ -17,10 +17,10 @@ for line in f:
     data = line.split(",")[1].lower()
     capitals.append(remove_accents(data))
 f.close()
-# save capitals in list and sort list
+# save capitals in list 
 
 check = {x:False for x in capitals}
-# to determine which capitals are already checked
+# dict to determine which capitals are already checked
 
 guide = {"santiago":"chile","london":"united kingdom","la paz":"bolivia",
          "kingston":"jamaica","buenos aires":"argentina","san juan":"puerto rico",
@@ -53,11 +53,8 @@ for line in f:
         else:
             grafo.addAirport(info)
             check[city] = True
+            #check city as added
 f.close() 
 
-ls = [] #unused capitals
-for k,i in check.items():
-    if i is False:
-        ls.append(k)
 
 
