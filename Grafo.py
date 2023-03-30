@@ -29,7 +29,7 @@ class Grafo:
         """
         self.vertices.update({line[3]:Airport(line)})
         # add airport to dict
-        self.guide.update({line[2]:line[3]})
+        self.guide.update({line[2].lower():line[3]})
         # add reference to guide
         
     def addRoute(self,code1,code2):
@@ -62,7 +62,7 @@ class Grafo:
         the country name using guide
         """
         #guide returns the code used by getitem
-        return self[self.guide[country]]
+        return self[self.guide[country.lower()]]
     
     def __getitem__(self,index):
         """

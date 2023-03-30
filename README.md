@@ -5,7 +5,7 @@
 + Jesus Zuluaga
 
 ## Diagrama de clases
-![Example image](example.png "Example title")
+![Example image](data/puml.png)
 
 ## Algoritmos anteriores de procesamiento
 Algunos algortimos usados para facilitar el acceso a los datos y su comprensión no son necesarios ejecutar para usar el proyecto, se muestran por su relevancia en crear el grafo final usado.
@@ -14,7 +14,7 @@ Algunos algortimos usados para facilitar el acceso a los datos y su comprensión
 countries = []
 for code,data in grafo.vertices.items():
     countries.append(data.country)
-# store all codes and countries from graph
+# guardamos los codigos IATA y los paises del grafo
 
 print([item for item, count in collections.Counter(countries).items() if count > 1])
 ```
@@ -30,7 +30,8 @@ debug = open("data/empty_routes.txt","w",encoding="utf-8")
 for x in empty:
     debug.write(f"{str(x)}\n")
 debug.close()
-# escribimos en archivo la informacipon de la lista
+# escribimos en archivo la información de la lista 
+# para revisar y determinar la causa
 ```
 
 ### **Obtención de rutas adicionales por Airlabs API**
@@ -43,7 +44,7 @@ params = {
 }
 method = 'ping'
 api_base = 'http://airlabs.co/api/v9/routes?'
-# usando rutas de parametro de búsqueda
+# usando rutas como parametro de búsqueda
 api_result = requests.get(api_base+method, params)
 api_response = api_result.json()["response"]
 # se hace el llamado a la API y accede a la respuesta

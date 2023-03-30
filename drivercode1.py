@@ -1,12 +1,12 @@
 #import collections
 
 from processing import grafo 
-# do first processing to get graph without routes
+# do processing first to get graph without routes
 
 g = open("data/routes.csv","r",encoding="utf-8") # route to verify which are useful
 
 codes = []
-for code,data in grafo.vertices.items():
+for code in grafo.vertices.keys():
     codes.append(code)
 # store all codes and countries from graph
 
@@ -19,11 +19,12 @@ for line in g:
         grafo.addRoute(code1,code2)
 g.close() 
 
-# using files from using Airlabs API (check Airlabs.py)
+# using data extracted from Airlabs API (see README)
 with open("data/syria_routes.txt","r") as f:
     for line in f:
         try:
             grafo.addRoute("DAM",line[:3])
+            # slice to ignore "\n"
         except:
             pass 
 # add updated routes for Qatar
@@ -35,4 +36,10 @@ with open("data/guiana_routes.txt","r") as f:
             pass
 # add updated routes for French Guyana
 
-print(grafo.getByCountry("Colombia").routes)
+for code,airport in list(grafo.vertices.items()):
+    if len(airport.routes) ==0:
+        grafo.vertices.pop(code)
+        del grafo.guide[airport.country.lower()]
+#Delete airports without routes from graph
+
+print(grafo.getByCountry("colombia").routes)
