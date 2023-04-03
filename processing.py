@@ -55,6 +55,3 @@ for line in f:
             check[city] = True
             #check city as added
 f.close() 
-
-
-

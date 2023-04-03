@@ -70,9 +70,81 @@ class Grafo:
         dunder method to retrieve a vertex
         """
         return self.vertices[index]
+
+    def minDistance(self, travel_from: str, to: str):
+        """
+        Compute the minimal distance bewtwen two cities
+
+        Args:   
+            travel_from (str) : [name of the first city]
+            to          (str) : [name of the second city]
+
+        Return:
+            (str) : returns a string with the information we wanted
+        """
+        # We say all the distances will be infinite except for the beginning
+        distances = {vertice: float('inf') for vertice in self.vertices}
+        distances[travel_from] = 0
+        # A list with visited cities
+        visited = set()
+        parents = {}
+
+        # We will visit all the cities in the graph
+        while len(visited) < len(self.vertices):
+            current_vertex = None
+            current_distance = float('inf')
+
+            # City with the minimal distance
+            for vertex, distance in distances.items():
+                if vertex not in visited and distance < current_distance:
+                    current_vertex = vertex 
+                    current_distance = distance
+            
+            # Just if we can't find the city we was looking for
+            if current_vertex is None:
+                break
+
+            visited.add(current_vertex)
+
+            # Update the distances (remind we initialized in infinity all of those distances)
+            for neighbor, weight in self.vertices[current_vertex].routes.items():
+                distance_two = distances[current_vertex] + weight
+
+                if distance_two < distances[neighbor]:
+                    distances[neighbor] = distance_two
+                    parents[neighbor] = current_vertex
+
+
+        # We build a distance if we found a path
+        if to not in parents:
+            return float('inf'), []
+
+        path = [to]
+        father = parents[to]
+
+        while father != travel_from:
+            path.insert(0, father)
+            father = parents[father]
+
+        path.insert(0, travel_from)
+        # We capitalize all the names
+        path = [path.title() for path in path]
+        titulo = '''
+        
+██████╗ ██╗   ██╗████████╗ █████╗      ██████╗ ██████╗ ████████╗██╗███╗   ███╗ █████╗     ██████╗ ███████╗    ██╗   ██╗██╗ █████╗      ██╗███████╗
+██╔══██╗██║   ██║╚══██╔══╝██╔══██╗    ██╔═══██╗██╔══██╗╚══██╔══╝██║████╗ ████║██╔══██╗    ██╔══██╗██╔════╝    ██║   ██║██║██╔══██╗     ██║██╔════╝
+██████╔╝██║   ██║   ██║   ███████║    ██║   ██║██████╔╝   ██║   ██║██╔████╔██║███████║    ██║  ██║█████╗      ██║   ██║██║███████║     ██║█████╗  
+██╔══██╗██║   ██║   ██║   ██╔══██║    ██║   ██║██╔═══╝    ██║   ██║██║╚██╔╝██║██╔══██║    ██║  ██║██╔══╝      ╚██╗ ██╔╝██║██╔══██║██   ██║██╔══╝  
+██║  ██║╚██████╔╝   ██║   ██║  ██║    ╚██████╔╝██║        ██║   ██║██║ ╚═╝ ██║██║  ██║    ██████╔╝███████╗     ╚████╔╝ ██║██║  ██║╚█████╔╝███████╗
+╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝     ╚═════╝ ╚═╝        ╚═╝   ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝    ╚═════╝ ╚══════╝      ╚═══╝  ╚═╝╚═╝  ╚═╝ ╚════╝ ╚══════╝
+                                                                                                                                                  
+        '''
+        agregar_bonito = '\n\t[+] '.join(path)
+        print(titulo)
+        return f'La distancia minima para ir de {travel_from} hasta {to} es de {round(distances[to], 2)}km con la siguiente ruta: \n\t[+] {agregar_bonito}'
     
 class Airport:
-    def __init__(self,line:list) -> None:
+    def __init__(self, line:list) -> None:
         self.name = line[0]
         self.city = line[1]
         self.country = line[2].lower()
