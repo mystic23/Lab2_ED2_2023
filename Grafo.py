@@ -143,6 +143,72 @@ class Grafo:
         print(titulo)
         return f'La distancia minima para ir de {travel_from} hasta {to} es de {round(distances[to], 2)}km con la siguiente ruta: \n\t[+] {agregar_bonito}'
     
+    def distanceAll(self, travel_from):
+        """
+        Compute the minimal distance bewtween a city and all the rest
+
+        Args: 
+            travel_from (str): [city we want to know all the minimal distances]
+        """
+        # Initialize all the distances with infinity except for the beginning
+        distancias = {vertice: float('inf') for vertice in self.vertices}
+        distancias[travel_from] = 0
+
+        # Cities who we already visited
+        visitados = set()
+        padres = {}
+        vertices_pasados = {}
+
+        # We'll visit all vertex
+        while len(visitados) < len(self.vertices):
+            # Non visited vertex and the distance
+            vertice_actual = None
+            distancia_actual = float('inf')
+
+            for vertice, distancia in distancias.items():
+                if vertice not in visitados and distancia < distancia_actual:
+                    vertice_actual = vertice
+                    distancia_actual = distancia
+
+            # If we couldn't find it, we leave the loop
+            if vertice_actual is None:
+                break
+
+            # We mark the current vertex as visited, clearly
+            visitados.add(vertice_actual)
+
+            # Update the distances
+            for vecino, peso in self.vertices[vertice_actual].routes.items():
+                distancia = distancias[vertice_actual] + peso
+
+                if distancia < distancias[vecino]:
+                    distancias[vecino] = distancia
+                    padres[vecino] = vertice_actual
+                    vertices_pasados[vecino] = vertices_pasados.get(vertice_actual, []) + [vecino]
+
+        # Chatgpt, thanks
+        rutas = {}
+        # Gracias, chatgpt por estas lineas de codigo de a continuacion
+        for destino in self.vertices:
+            if destino == travel_from:
+                continue
+
+            if destino not in padres:
+                rutas[destino] = float('inf'), []
+            else:
+                ruta = [destino]
+                padre = padres[destino]
+
+                while padre != travel_from:
+                    ruta.insert(0, padre)
+                    padre = padres[padre]
+
+                ruta.insert(0, travel_from)
+                rutas[destino] = distancias[destino], ruta
+                vertices_pasados[destino] = vertices_pasados.get(padres[destino], []) + [destino]
+
+        return rutas
+
 class Airport:
     def __init__(self, line:list) -> None:
         self.name = line[0]
