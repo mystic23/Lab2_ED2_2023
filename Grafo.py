@@ -117,6 +117,7 @@ class Grafo:
 
         # We build a distance if we found a path
         if to not in parents:
+            print("No hay camino")
             return float('inf'), []
 
         path = [to]
@@ -128,21 +129,13 @@ class Grafo:
 
         path.insert(0, travel_from)
         # We capitalize all the names
-        path = [path.title() for path in path]
-        titulo = '''
-        
-██████╗ ██╗   ██╗████████╗ █████╗      ██████╗ ██████╗ ████████╗██╗███╗   ███╗ █████╗     ██████╗ ███████╗    ██╗   ██╗██╗ █████╗      ██╗███████╗
-██╔══██╗██║   ██║╚══██╔══╝██╔══██╗    ██╔═══██╗██╔══██╗╚══██╔══╝██║████╗ ████║██╔══██╗    ██╔══██╗██╔════╝    ██║   ██║██║██╔══██╗     ██║██╔════╝
-██████╔╝██║   ██║   ██║   ███████║    ██║   ██║██████╔╝   ██║   ██║██╔████╔██║███████║    ██║  ██║█████╗      ██║   ██║██║███████║     ██║█████╗  
-██╔══██╗██║   ██║   ██║   ██╔══██║    ██║   ██║██╔═══╝    ██║   ██║██║╚██╔╝██║██╔══██║    ██║  ██║██╔══╝      ╚██╗ ██╔╝██║██╔══██║██   ██║██╔══╝  
-██║  ██║╚██████╔╝   ██║   ██║  ██║    ╚██████╔╝██║        ██║   ██║██║ ╚═╝ ██║██║  ██║    ██████╔╝███████╗     ╚████╔╝ ██║██║  ██║╚█████╔╝███████╗
-╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝     ╚═════╝ ╚═╝        ╚═╝   ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝    ╚═════╝ ╚══════╝      ╚═══╝  ╚═╝╚═╝  ╚═╝ ╚════╝ ╚══════╝
-                                                                                                                                                  
-        '''
+        #path = [path.title() for path in path]
         agregar_bonito = '\n\t[+] '.join(path)
-        print(titulo)
-        return f'La distancia minima para ir de {travel_from} hasta {to} es de {round(distances[to], 2)}km con la siguiente ruta: \n\t[+] {agregar_bonito}'
+        dist = round(distances[to], 2)
+        print(f'La distancia minima para ir de {travel_from.title()} hasta {to.title()} es de {dist}km con la siguiente ruta: \n\t[+] {agregar_bonito}')
+        return dist,path
     
+
     def distanceAll(self, travel_from):
         """
         Compute the minimal distance bewtween a city and all the rest
@@ -215,7 +208,7 @@ class Airport:
         self.city = line[1]
         self.country = line[2].lower()
         self.code = line[3] # IATA code
-        self.coords = (line[4],line[5])
+        self.coords = (float(line[4]),float(line[5]))
         self.routes = {}
 
     def __repr__(self) -> str:

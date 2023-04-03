@@ -46,6 +46,6 @@ for country,airport in list(grafo.vertices.items()):
         grafo.vertices.pop(country)
 #Delete airports without routes from graph
 
-print(grafo.minDistance('colombia', 'canada'))
 
-print(grafo.distanceAll('colombia'))
+dist,path = grafo.minDistance("colombia","french guiana")
+
