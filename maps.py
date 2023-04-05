@@ -4,13 +4,13 @@ from drivercode1 import grafo
 
 # create tkinter window
 root_tk = tkinter.Tk()
-root_tk.geometry(f"{1000}x{700}+{250}+{50}")
+root_tk.geometry(f"{1200}x{700}+{250}+{50}")
 root_tk.iconbitmap("img/icon.ico")
 root_tk.title("CityScape Odyssey.py")
 root_tk.resizable(False,False)
 
 # create map widget
-map_widget = tkintermapview.TkinterMapView(root_tk, width=1000, height=600, corner_radius=20)
+map_widget = tkintermapview.TkinterMapView(root_tk, width=1400, height=600, corner_radius=20)
 
 
 # create input boxes
