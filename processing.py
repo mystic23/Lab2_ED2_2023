@@ -28,30 +28,35 @@ guide = {"santiago":"chile","london":"united kingdom","la paz":"bolivia",
 # corrects capital asignation for countries that have cities with capital names
 
 
-f = open("data/airports.csv","r",encoding="utf-8") # open airports database
-from Grafo import Grafo
 
-grafo = Grafo()
 
-for line in f:
+def llenar_grafo():
+    f = open("data/airports.csv","r",encoding="utf-8") # open airports database
+    from Grafo import Grafo 
 
-    data = line.split(",")
-    country = data[3].strip('"').lower()
-    city = data[2].lower()
+    grafo = Grafo()
+    for line in f:
 
-    if city in capitals and not check[city] and line.split(",")[4] !="\\N":
-        # take cities that are capitals we have not checked and that have IATA code
-        str = f"{data[1]},{data[2]},{data[3]},{data[4]},{data[6]},{data[7]}"
-        info = [x.strip('"') for x in str.split(",")]
+        data = line.split(",")
+        country = data[3].strip('"').lower()
+        city = data[2].lower()
 
-        if city.strip('"') in list(guide.keys()): # if city is special case
-            #name,city,country,code,lat,long
+        if city in capitals and not check[city] and line.split(",")[4] !="\\N":
+            # take cities that are capitals we have not checked and that have IATA code
+            str = f"{data[1]},{data[2]},{data[3]},{data[4]},{data[6]},{data[7]}"
+            info = [x.strip('"') for x in str.split(",")]
 
-            if country==guide[city.strip('"')]: # add if we have right country
+            if city.strip('"') in list(guide.keys()): # if city is special case
+                #name,city,country,code,lat,long
+
+                if country==guide[city.strip('"')]: # add if we have right country
+                    grafo.addAirport(info)
+                    check[city] = True
+            else:
                 grafo.addAirport(info)
                 check[city] = True
-        else:
-            grafo.addAirport(info)
-            check[city] = True
-            #check city as added
-f.close() 
+                #check city as added
+
+    f.close() 
+    return grafo 
+grafo = llenar_grafo()
