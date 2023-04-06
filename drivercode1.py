@@ -48,8 +48,3 @@ for country,airport in list(grafo.vertices.items()):
 
 
 # dist,path = grafo.minDistance("colombia","french guiana")
-
-print(len(list(grafo.vertices)))
-
-print(len(grafo.bfs('chile')))
-

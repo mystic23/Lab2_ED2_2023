@@ -4,6 +4,14 @@
 + María Solá
 + Jesus Zuluaga
 
+
+## Ejecución
+Por favor ejecutar Bonito.py
+
+## Librerias
++ tkintermapview
++ geopy
+
 ## Diagrama de clases
 ![Example image](data/puml.png)
 
@@ -62,3 +70,10 @@ M. ChatGPT, "How to count repeated elements in dictionary," [Online]. Available:
 M. Bing, "How to remove accents in python," Microsoft Bing Chatbot [Online]. Available: https://github.com/microsoft/bing-chatbot/blob/main/assistant.py. [Accessed: Mar. 20, 2023].
 
 AirLabs, "AirLabs Routes API documentation," [Online]. Available: https://airlabs.co/docs/routes.
+
+M. ChatGPT, "How do I update a label in Tkinter with intervals?", [Online]. Available: https://stackoverflow.com/questions/5286093/how-do-i-update-a-label-in-tkinter-with-intervals. [Accessed: Apr. 5, 2023].
+
+https://github.com/TomSchimansky/TkinterMapView
+
+https://github.com/TomSchimansky/CustomTkinter
+

@@ -2,11 +2,9 @@
 
 import customtkinter
 from tkintermapview import TkinterMapView
-import sys
-import tkinter
 from drivercode1 import grafo
-from processing import *
-from processing import restartGraph
+#from processing import *
+#from processing import restartGraph
 
 
 customtkinter.set_default_color_theme("dark-blue")
@@ -48,16 +46,6 @@ class App(customtkinter.CTk):
 
         self.frame_left.grid_rowconfigure(8, weight=0)
 
-        # self.button_1 = customtkinter.CTkButton(master=self.frame_left,
-        #                                         text="Set Marker",
-        #                                         command=self.set_marker_event)
-        # self.button_1.grid(pady=(20, 0), padx=(20, 20), row=0, column=0)
-        
-
-        # self.button_2 = customtkinter.CTkButton(master=self.frame_left,
-        #                                         text="Clear Markers",
-        #                                         command=self.clear_marker_event)
-        # self.button_2.grid(pady=(20, 0), padx=(20, 20), row=0, column=0)
         
         self.entry0 = customtkinter.CTkEntry(master=self.frame_left,
                                             placeholder_text="Delete airport")
@@ -84,43 +72,47 @@ class App(customtkinter.CTk):
         self.button_10.grid(pady=(20, 0), padx=(20, 20), row=4, column=0)
         self.button_11 = customtkinter.CTkButton(master=self.frame_left,
                                                 text=" DFS ",
-                                                command=self.bfs_airport)
+                                                command=self.dfs_airport)
         self.button_11.grid(pady=(20, 0), padx=(20, 20), row=5, column=0)
         
 
         self.map_label = customtkinter.CTkLabel(self.frame_left, text="Tile Server:", anchor="w")
-        self.map_label.grid(row=6, column=0, padx=(20, 20), pady=(20, 0))
+        self.map_label.grid(row=9, column=0, padx=(20, 20), pady=(20, 0))
         
         self.map_option_menu = customtkinter.CTkOptionMenu(self.frame_left, values=["OpenStreetMap", "Google normal", "Google satellite"],
                                                                        command=self.change_map)
-        self.map_option_menu.grid(row=7, column=0, padx=(20, 20), pady=(10, 0))
+        self.map_option_menu.grid(row=10, column=0, padx=(20, 20), pady=(10, 0))
 
         self.appearance_mode_label = customtkinter.CTkLabel(self.frame_left, text="Appearance Mode:", anchor="w")
-        self.appearance_mode_label.grid(row=8, column=0, padx=(20, 20), pady=(20, 0))
+        self.appearance_mode_label.grid(row=11, column=0, padx=(20, 20), pady=(20, 0))
         
         self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.frame_left, values=["Light", "Dark", "System"],
                                                                        command=self.change_appearance_mode)
-        self.appearance_mode_optionemenu.grid(row=9 , column=0, padx=(20, 20), pady=(20, 0))
+        self.appearance_mode_optionemenu.grid(row=12 , column=0, padx=(20, 20), pady=(20, 0))
         
-        
-        
-        # ============ frame_right ============
+        self.add = customtkinter.CTkButton(master=self.frame_left,
+                                                text=" Add Airport ",
+                                                command=self.add_airport)
+        self.add.grid(pady=(20, 0), padx=(20, 20), row=6, column=0)
 
-        # self.frame_right.grid_rowconfigure(1, weight=1)
-        # self.frame_right.grid_rowconfigure(0, weight=0)
-        # self.frame_right.grid_columnconfigure(0, weight=1)
-        # self.frame_right.grid_columnconfigure(1, weight=0)
-        # self.frame_right.grid_columnconfigure(2, weight=1)
+
+        self.newcoords = customtkinter.CTkEntry(master=self.frame_left,
+                                            placeholder_text="Enter coords")
+        self.newcoords.grid(row=7, column=0,sticky="nsw", padx=(16, 0), pady=(20, 0))
+
+        self.namecode = customtkinter.CTkEntry(master=self.frame_left,
+                                            placeholder_text="Enter name,code,city")
+        self.namecode.grid(row=8, column=0,sticky="nsw", padx=(16, 0), pady=(20, 0))
 
         self.map_widget = TkinterMapView(width=1200, height=600, corner_radius=0)
         self.map_widget.grid(row=0, rowspan=1, column=1,  columnspan=4,sticky="nsew", padx=(30, 30), pady=(75, 30))
-        
 
         self.entry = customtkinter.CTkEntry(master=self.frame_right,
                                             placeholder_text="type origin")
         self.entry.grid(row=0, column=0, sticky="we", padx=(20, 0), pady=12)
         self.entry.bind("<Return>", self.search_event)
-        
+        # returns allows to use enter to trigger event
+
         self.button_5 = customtkinter.CTkButton(master=self.frame_right,
                                                 text="Search",
                                                 width=90,
@@ -141,24 +133,24 @@ class App(customtkinter.CTk):
         self.button_6.grid(row=0, column=3, sticky="w", padx=(5, 0), pady=12)
 
 
-
         self.button_8 = customtkinter.CTkButton(master=self.frame_right,
-                                                text="Min Rout",
+                                                text="Min Route",
                                                 width=90,
                                                 command=self.min_route)
         self.button_8.grid(row=0, column=4, sticky="w", padx=(5, 0), pady=12)
+
+
+
         self.button_12 = customtkinter.CTkButton(master=self.frame_right,
-                                                text="Add Airport",
+                                                text="Add route",
                                                 width=90,
-                                                command=self.set_marker_event)
+                                                command=self.add_route)
         self.button_12.grid(row=0, column=5, sticky="w", padx=(5, 0), pady=12)
         
-        self.map_label1 = customtkinter.CTkLabel(self.frame_right, text="Bienvenido a CityScape Odyssey", width=20, height=5)
-        self.map_label1.grid(row=0, column=6, padx=(5, 0), pady=12 )
+        self.consola = customtkinter.CTkLabel(self.frame_right, text="Bienvenido a CityScape Odyssey", width=20, height=5)
+        self.consola.grid(row=0, column=6, padx=(5, 0), pady=12 )
         
-     
-        
-
+    
         # Set default values
         self.map_widget.set_address("Colombia")
         self.map_option_menu.set("OpenStreetMap")
@@ -169,29 +161,72 @@ class App(customtkinter.CTk):
         self.search_in_progress = False
         
     ##conecta los puntos que coloque del mapa
-    def add_airport(self, event=None):
-        if not self.search_in_progress:
-            self.search_in_progress = True
-            if self.search_marker not in self.marker_list:
-                self.map_widget.delete(self.search_marker)
+    def add_airport(self,event=None):
+        try:
+            country = self.entry.get()
+            coords = self.newcoords.get()
+            lat = coords.split(" ")[0]
+            long = coords.split(" ")[1]
+            name_code = self.namecode.get()
+            name = name_code.split(",")[0]
+            code = name_code.split(",")[1]
+            city = name_code.split(",")[2]
 
-            address = self.entry.get()
-            self.search_marker = self.map_widget.set_address(address, marker=True)
-            if self.search_marker is False:
-                # address was invalid (return value is False)
-                self.search_marker = None
-            self.search_in_progress = False      
+            try:
+                print(grafo[country].coords)
+                self.consola.configure(text="ya está el pais") 
+            except:
+                grafo.addAirport([name,city,country,code,lat,long])
+                self.consola.configure(text="se ha añadido un aeropuerto") 
+
+
+                x = self.map_widget.set_marker(float(lat),float(long),text=country)
+                self.markers_dict.update({country:x})
     
-    def dfs_airport():
-        pass
-    
-    def bfs_airport():
-        pass
-    
-    def set_marker_event(self):
+        except:
+            self.consola.configure(text="Faltan datos")  
+
+    def dfs_airport(self):
+        try:
+            start = self.entry.get()
+            self.vertices = grafo.dfs(start)
+            self.show_dfs()
+        except:
+            self.consola.configure(text="Ingrese pais de inicio")
+    def show_dfs(self):
+        if len(self.vertices)!=0:
+            current_word = self.vertices.pop(0)
+            self.consola.configure(text=current_word)
+            self.after(750, self.show_dfs)
+
+    def bfs_airport(self):
+        try:
+            start = self.entry.get()
+            self.vertices = grafo.bfs(start)
+            self.show_bfs()
+        except:
+            self.consola.configure(text="Ingrese pais de inicio")
+
+    def show_bfs(self):
+        if len(self.vertices)!=0:
+            current_word = self.vertices.pop(0)
+            self.consola.configure(text=current_word)
+            self.after(750, self.show_dfs)
+
+    def add_route(self):
+        try:
+            a = self.entry.get()
+            b = self.entry2.get()
+
+            grafo.addRoute(a,b)
+            self.consola.configure(text=f"ruta creada de distancia {grafo[a].routes[b]} ")
+            self.show_routes()
+        except:
+            self.consola.configure(text="Error en paises")
+    """ def set_marker_event(self):
         
         current_position = self.map_widget.get_position()
-        self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
+        self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1])) """
         
        
         
@@ -208,23 +243,28 @@ class App(customtkinter.CTk):
         if len(position_list) > 0:
             self.marker_path = self.map_widget.set_path(position_list)
    
-    ##busca el punto especifico
-    #pero lo que no sé es como vincularlo al csv       
+      
     def search_event(self, event=None):
-        country = self.entry.get()
-        x = grafo[country].coords[0]
-        y = grafo[country].coords[1]
-        address = f"{x} {y}"
-        self.map_widget.set_address(address, marker=False)
-        
+        try:
+            country = self.entry.get()
+            x = grafo[country].coords[0]
+            y = grafo[country].coords[1]
+            address = f"{x} {y}"
+            self.map_widget.set_address(address, marker=False)
+            self.consola.configure(text=f"{grafo[country].name} ({grafo[country].code})")
+        except:
+            self.consola.configure(text="País no valido/espacio vacío")
     
     def search_event2(self, event=None):
-        country = self.entry2.get()
-        x = grafo[country].coords[0]
-        y = grafo[country].coords[1]
-        address = f"{x} {y}"
-        self.map_widget.set_address(address, marker=False)
-        
+        try:
+            country = self.entry2.get()
+            x = grafo[country].coords[0]
+            y = grafo[country].coords[1]
+            address = f"{x} {y}"
+            self.map_widget.set_address(address, marker=False)
+            self.consola.configure(text=f"{grafo[country].name} {grafo[country].code}")
+        except:
+            self.consola.configure(text="País no valido/espacio vacío")
 
     def clear_marker_event(self):
         for marker in self.marker_list:
@@ -256,6 +296,7 @@ class App(customtkinter.CTk):
         Shows minium route between two 
         country airports
         """
+        self.map_widget.delete_all_path()
         try:
             
             address = self.entry.get()
@@ -264,7 +305,7 @@ class App(customtkinter.CTk):
             dist,path = grafo.minDistance(address,destino)
             # do dijktra
             if path: # if a path was found
-                # self.consola.config(text=f"Distance:{dist}km  Path:{path}")
+                self.consola.configure(text=f"Distance:{dist}km  Path:{path}")
                 for i in range(len(path)-1):
                     a = path[i]
                     b = path[i+1]
@@ -272,11 +313,9 @@ class App(customtkinter.CTk):
                     self.map_widget.set_path([x.coords,grafo[b].coords],color="green",width=10)
                     # draw path to destination
             else:
-                # self.consola.config(text=f"No hay camino")
-                print("No hay camino")
+                self.consola.configure(text=f"No hay camino")
         except:
-            # self.consola.config(text=
-            print("Inserte en los dos campos") 
+            self.consola.configure(text="Inserte en los dos campos") 
     
                      
     def delete_airport(self):
@@ -291,7 +330,7 @@ class App(customtkinter.CTk):
             self.markers_dict[address].delete()
             self.map_widget.delete_all_path()
         except:
-            print("Escriba pais en mapa")
+            self.consola.configure(text="Escriba país en mapa") 
             
             
 
@@ -317,4 +356,3 @@ class App(customtkinter.CTk):
 if __name__ == "__main__":
     app = App()
     app.start()
-    
