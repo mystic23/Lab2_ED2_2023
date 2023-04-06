@@ -174,13 +174,6 @@ class App(customtkinter.CTk):
         self.map_widget.set_address(grafo[country].name, marker=False)
         
 
-    # def set_marker_event(self):
-    #     current_text = self.entry.get() #aqui esta el texto
-    #     self.name_cities.append(current_text)
-        
-    #     current_position = self.map_widget.get_position()
-    #     self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
-
     def clear_marker_event(self):
         for marker in self.marker_list:
             marker.delete()
@@ -264,7 +257,10 @@ class App(customtkinter.CTk):
         self.destroy()
 
     def start(self):
-        self.restart_airport()
+        for airport in grafo.vertices.values():
+            x = self.map_widget.set_marker(float(airport.coords[0]),float(airport.coords[1]),text=airport.country)
+            self.markers_dict.update({airport.country:x})
+        # set a position marker (also with a custom color and command on click)
         self.mainloop()
 
 
