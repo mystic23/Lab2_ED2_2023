@@ -9,12 +9,12 @@ from processing import *
 from processing import restartGraph
 
 
-customtkinter.set_default_color_theme("blue")
+customtkinter.set_default_color_theme("dark-blue")
 
 class App(customtkinter.CTk):
   
     APP_NAME = "- CityScape Odyssey -"
-    WIDTH = 1200
+    WIDTH = 1500
     HEIGHT = 700
     markers_dict = {}
     
@@ -46,7 +46,7 @@ class App(customtkinter.CTk):
 
         # ============ frame_left ============
 
-        self.frame_left.grid_rowconfigure(7, weight=0)
+        self.frame_left.grid_rowconfigure(8, weight=0)
 
         # self.button_1 = customtkinter.CTkButton(master=self.frame_left,
         #                                         text="Set Marker",
@@ -78,22 +78,32 @@ class App(customtkinter.CTk):
                                                 text="Restart Airport",
                                                 command=self.restart_airport)
         self.button_9.grid(pady=(20, 0), padx=(20, 20), row=3, column=0)
+        self.button_10 = customtkinter.CTkButton(master=self.frame_left,
+                                                text=" BFS ",
+                                                command=self.bfs_airport)
+        self.button_10.grid(pady=(20, 0), padx=(20, 20), row=4, column=0)
+        self.button_11 = customtkinter.CTkButton(master=self.frame_left,
+                                                text=" DFS ",
+                                                command=self.bfs_airport)
+        self.button_11.grid(pady=(20, 0), padx=(20, 20), row=5, column=0)
         
 
         self.map_label = customtkinter.CTkLabel(self.frame_left, text="Tile Server:", anchor="w")
-        self.map_label.grid(row=4, column=0, padx=(20, 20), pady=(20, 0))
+        self.map_label.grid(row=6, column=0, padx=(20, 20), pady=(20, 0))
         
         self.map_option_menu = customtkinter.CTkOptionMenu(self.frame_left, values=["OpenStreetMap", "Google normal", "Google satellite"],
                                                                        command=self.change_map)
-        self.map_option_menu.grid(row=5, column=0, padx=(20, 20), pady=(10, 0))
+        self.map_option_menu.grid(row=7, column=0, padx=(20, 20), pady=(10, 0))
 
         self.appearance_mode_label = customtkinter.CTkLabel(self.frame_left, text="Appearance Mode:", anchor="w")
-        self.appearance_mode_label.grid(row=6, column=0, padx=(20, 20), pady=(20, 0))
+        self.appearance_mode_label.grid(row=8, column=0, padx=(20, 20), pady=(20, 0))
         
         self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.frame_left, values=["Light", "Dark", "System"],
                                                                        command=self.change_appearance_mode)
-        self.appearance_mode_optionemenu.grid(row=6 , column=0, padx=(20, 20), pady=(20, 0))
-
+        self.appearance_mode_optionemenu.grid(row=9 , column=0, padx=(20, 20), pady=(20, 0))
+        
+        
+        
         # ============ frame_right ============
 
         # self.frame_right.grid_rowconfigure(1, weight=1)
@@ -107,7 +117,7 @@ class App(customtkinter.CTk):
         
 
         self.entry = customtkinter.CTkEntry(master=self.frame_right,
-                                            placeholder_text="type address")
+                                            placeholder_text="type origin")
         self.entry.grid(row=0, column=0, sticky="we", padx=(20, 0), pady=12)
         self.entry.bind("<Return>", self.search_event)
         
@@ -137,6 +147,14 @@ class App(customtkinter.CTk):
                                                 width=90,
                                                 command=self.min_route)
         self.button_8.grid(row=0, column=4, sticky="w", padx=(5, 0), pady=12)
+        self.button_12 = customtkinter.CTkButton(master=self.frame_right,
+                                                text="Add Airport",
+                                                width=90,
+                                                command=self.set_marker_event)
+        self.button_12.grid(row=0, column=5, sticky="w", padx=(5, 0), pady=12)
+        
+        self.map_label1 = customtkinter.CTkLabel(self.frame_right, text="Bienvenido a CityScape Odyssey", width=20, height=5)
+        self.map_label1.grid(row=0, column=6, padx=(5, 0), pady=12 )
         
      
         
@@ -147,9 +165,36 @@ class App(customtkinter.CTk):
         self.appearance_mode_optionemenu.set("Dark")
      
         self.marker_path = None
+        self.search_marker = None
         self.search_in_progress = False
         
     ##conecta los puntos que coloque del mapa
+    def add_airport(self, event=None):
+        if not self.search_in_progress:
+            self.search_in_progress = True
+            if self.search_marker not in self.marker_list:
+                self.map_widget.delete(self.search_marker)
+
+            address = self.entry.get()
+            self.search_marker = self.map_widget.set_address(address, marker=True)
+            if self.search_marker is False:
+                # address was invalid (return value is False)
+                self.search_marker = None
+            self.search_in_progress = False      
+    
+    def dfs_airport():
+        pass
+    
+    def bfs_airport():
+        pass
+    
+    def set_marker_event(self):
+        
+        current_position = self.map_widget.get_position()
+        self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
+        
+       
+        
     def connect_marker(self):
         print(self.marker_list)
         position_list = []
@@ -201,8 +246,9 @@ class App(customtkinter.CTk):
             path = self.map_widget.set_path([airport.coords,grafo[ady].coords],color="blue",width=4)
       
     def restart_airport(self):
-        restartGraph(grafo)
-        self.start()
+        pass
+        # restartGraph(grafo)
+        # self.start()
     
      
     def min_route(self):
