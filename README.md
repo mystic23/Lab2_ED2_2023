@@ -13,7 +13,7 @@ Por favor ejecutar Bonito.py
 + geopy
 
 ## Diagrama de clases
-![Example image](data/puml.png)
+![Example image](uml.jpg)
 
 ## Algoritmos anteriores de procesamiento
 Algunos algortimos usados para facilitar el acceso a los datos y su comprensión no son necesarios ejecutar para usar el proyecto, se muestran por su relevancia en crear el grafo final usado.
@@ -70,10 +70,3 @@ M. ChatGPT, "How to count repeated elements in dictionary," [Online]. Available:
 M. Bing, "How to remove accents in python," Microsoft Bing Chatbot [Online]. Available: https://github.com/microsoft/bing-chatbot/blob/main/assistant.py. [Accessed: Mar. 20, 2023].
 
 AirLabs, "AirLabs Routes API documentation," [Online]. Available: https://airlabs.co/docs/routes.
-
-M. ChatGPT, "How do I update a label in Tkinter with intervals?", [Online]. Available: https://stackoverflow.com/questions/5286093/how-do-i-update-a-label-in-tkinter-with-intervals. [Accessed: Apr. 5, 2023].
-
-https://github.com/TomSchimansky/TkinterMapView
-
-https://github.com/TomSchimansky/CustomTkinter
-
