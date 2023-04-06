@@ -167,12 +167,18 @@ class App(customtkinter.CTk):
     #pero lo que no sé es como vincularlo al csv       
     def search_event(self, event=None):
         country = self.entry.get()
-        self.map_widget.set_address(grafo[country].name, marker=False)
+        x = grafo[country].coords[0]
+        y = grafo[country].coords[1]
+        address = f"{x} {y}"
+        self.map_widget.set_address(address, marker=False)
         
     
     def search_event2(self, event=None):
         country = self.entry2.get()
-        self.map_widget.set_address(grafo[country].name, marker=False)
+        x = grafo[country].coords[0]
+        y = grafo[country].coords[1]
+        address = f"{x} {y}"
+        self.map_widget.set_address(address, marker=False)
         
 
     def clear_marker_event(self):
