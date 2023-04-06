@@ -62,3 +62,5 @@ M. ChatGPT, "How to count repeated elements in dictionary," [Online]. Available:
 M. Bing, "How to remove accents in python," Microsoft Bing Chatbot [Online]. Available: https://github.com/microsoft/bing-chatbot/blob/main/assistant.py. [Accessed: Mar. 20, 2023].
 
 AirLabs, "AirLabs Routes API documentation," [Online]. Available: https://airlabs.co/docs/routes.
+
+Schimansky, T. (2021). TkinterMapView. GitHub,  [Online]. Available:  https://github.com/TomSchimansky/TkinterMapView.git
