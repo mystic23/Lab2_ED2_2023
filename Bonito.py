@@ -196,10 +196,7 @@ class App(customtkinter.CTk):
       
     def restart_airport(self):
         restartGraph(grafo)
-        for airport in grafo.vertices.values():
-            x = self.map_widget.set_marker(float(airport.coords[0]),float(airport.coords[1]),text=airport.country)
-            self.markers_dict.update({airport.country:x})
-        # set a position marker (also with a custom color and command on click)
+        self.start()
     
      
     def min_route(self):
