@@ -5,7 +5,7 @@
 + Jesus Zuluaga
 
 ## Diagrama de clases
-![Example image](data/puml.png)
+![Example image](img\uml.jpg)
 
 ## Algoritmos anteriores de procesamiento
 Algunos algortimos usados para facilitar el acceso a los datos y su comprensión no son necesarios ejecutar para usar el proyecto, se muestran por su relevancia en crear el grafo final usado.
