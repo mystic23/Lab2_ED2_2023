@@ -67,6 +67,38 @@ class Grafo:
         for ady in adyacents: 
             del self[ady].routes[country]
         # delete flights/edges
+    
+    def dfs(self, current):
+        visited = []  # Lista de nodos visitados
+        stack = [current]  # Pila de nodos a visitar
+
+        while stack:
+            node = stack.pop()  # Obtiene el nodo superior de la pila
+
+            if node not in visited:
+                visited.append(node)  # Marca el nodo como visitado
+                neighbors = self.vertices[node].routes  # Obtiene los nodos adyacentes
+                for neighbor in neighbors:
+                    if neighbor not in visited:
+                        stack.append(neighbor)  # Agrega los nodos adyacentes no visitados a la pila
+
+        return visited
+
+    def bfs(self, current):
+        visited = []  # Lista de nodos visitados
+        queue = [current]  # Cola de nodos a visitar
+
+        while queue:
+            node = queue.pop(0)  # Obtiene el primer nodo de la cola
+
+            if node not in visited:
+                visited.append(node)  # Marca el nodo como visitado
+                neighbors = self.vertices[node].routes  # Obtiene los nodos adyacentes
+                for neighbor in neighbors:
+                    if neighbor not in visited:
+                        queue.append(neighbor)  # Agrega los nodos adyacentes no visitados a la cola
+
+        return visited
 
     def __getitem__(self,index):
         """

@@ -121,3 +121,6 @@ f.close()
 
 # # Tamaño al reiniciar el grafo
 # print(len(list(grafo.vertices)))
+
+# print(grafo.dfs('colombia'))
+print(grafo.vertices['colombia'].routes)
