@@ -92,7 +92,7 @@ for line in f:
 grafo_copy = copy.deepcopy(grafo)
 
 # Reinicia el grafo
-def restartGraph(grafo: Grafo, grafo_rep: Grafo):
+def restartGraph(grafo: Grafo, grafo_temp=grafo_copy):
     '''
         Reinicia el grafo
 
@@ -100,24 +100,24 @@ def restartGraph(grafo: Grafo, grafo_rep: Grafo):
             grafo     (Graph): [Donde queremos devolver toda la información]
             grafo_rep (Graph): [Donde se encuentra toda la información]
     '''
-    grafo = grafo_rep
+    grafo = grafo_temp
     return grafo
 
 
 f.close() 
 
-# # Tamaño antes de borrar
-# print(len(list(grafo.vertices)))
+# Tamaño antes de borrar
+print(len(list(grafo.vertices)))
 
-# grafo.deleteAirport('colombia')
-# grafo.deleteAirport('mexico')
-# grafo.deleteAirport('venezuela')
-# grafo.deleteAirport('france')
+grafo.deleteAirport('colombia')
+grafo.deleteAirport('mexico')
+grafo.deleteAirport('venezuela')
+grafo.deleteAirport('france')
 
-# # Tamaño despues de borrar
-# print(len(list(grafo.vertices)))
+# Tamaño despues de borrar
+print(len(list(grafo.vertices)))
 
-# grafo = restartGraph(grafo, grafo_copy)
+grafo = restartGraph(grafo)
 
-# # Tamaño al reiniciar el grafo
-# print(len(list(grafo.vertices)))
+# Tamaño al reiniciar el grafo
+print(len(list(grafo.vertices)))
