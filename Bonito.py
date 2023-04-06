@@ -195,7 +195,7 @@ class App(customtkinter.CTk):
             path = self.map_widget.set_path([airport.coords,grafo[ady].coords],color="blue",width=4)
       
     def restart_airport(self):
-        restartGraph()
+        restartGraph(grafo)
         for airport in grafo.vertices.values():
             x = self.map_widget.set_marker(float(airport.coords[0]),float(airport.coords[1]),text=airport.country)
             self.markers_dict.update({airport.country:x})

@@ -74,8 +74,8 @@ for line in f:
 
     if city in capitals and not check[city] and line.split(",")[4] !="\\N":
         # take cities that are capitals we have not checked and that have IATA code
-        str = f"{data[1]},{data[2]},{data[3]},{data[4]},{data[6]},{data[7]}"
-        info = [x.strip('"') for x in str.split(",")]
+        str1 = f"{data[1]},{data[2]},{data[3]},{data[4]},{data[6]},{data[7]}"
+        info = [x.strip('"') for x in str1.split(",")]
 
         if city.strip('"') in list(guide.keys()): # if city is special case
             #name,city,country,code,lat,long
@@ -106,18 +106,18 @@ def restartGraph(grafo: Grafo, grafo_temp=grafo_copy):
 
 f.close() 
 
-# Tamaño antes de borrar
-print(len(list(grafo.vertices)))
+# # Tamaño antes de borrar
+# print(len(list(grafo.vertices)))
 
-grafo.deleteAirport('colombia')
-grafo.deleteAirport('mexico')
-grafo.deleteAirport('venezuela')
-grafo.deleteAirport('france')
+# grafo.deleteAirport('colombia')
+# grafo.deleteAirport('mexico')
+# grafo.deleteAirport('venezuela')
+# grafo.deleteAirport('france')
 
-# Tamaño despues de borrar
-print(len(list(grafo.vertices)))
+# # Tamaño despues de borrar
+# print(len(list(grafo.vertices)))
 
-grafo = restartGraph(grafo)
+# grafo = restartGraph(grafo)
 
-# Tamaño al reiniciar el grafo
-print(len(list(grafo.vertices)))
+# # Tamaño al reiniciar el grafo
+# print(len(list(grafo.vertices)))
