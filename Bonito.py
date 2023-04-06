@@ -6,6 +6,7 @@ import sys
 import tkinter
 from drivercode1 import grafo
 from processing import *
+from processing import restartGraph
 
 
 customtkinter.set_default_color_theme("blue")

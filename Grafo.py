@@ -19,6 +19,7 @@ class Grafo:
     def __init__(self) -> None:
         self.vertices = {} # capital airports
 
+
     def addAirport(self,line):
         """
         Adds an airport
@@ -58,6 +59,8 @@ class Grafo:
             country(str):[country of airport to delete]
         """
         adyacents = [country for country in self[country].routes.keys()]
+
+        
         # register all countries with routes to country to delete
         del self.vertices[country] # delete vertix/airport
 
