@@ -1,11 +1,6 @@
-
-
 import customtkinter
 from tkintermapview import TkinterMapView
 from drivercode1 import grafo
-#from processing import *
-#from processing import restartGraph
-
 
 customtkinter.set_default_color_theme("dark-blue")
 
@@ -14,8 +9,10 @@ class App(customtkinter.CTk):
     APP_NAME = "- CityScape Odyssey -"
     WIDTH = 1500
     HEIGHT = 700
+    # dimensions
     markers_dict = {}
-    
+    # allows access to markers added related to a country
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -24,8 +21,6 @@ class App(customtkinter.CTk):
         self.minsize(App.WIDTH, App.HEIGHT)
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
-        self.bind("<Command-q>", self.on_closing)
-        self.bind("<Command-w>", self.on_closing)
         self.createcommand('tk::mac::Quit', self.on_closing)
 
         self.marker_list = []
@@ -35,6 +30,8 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
+        # sets grid dimensions to space
+        # each grid sets a sistem of coordinates in row/column for easier placements
 
         self.frame_left = customtkinter.CTkFrame(master=self, width=150, corner_radius=0, fg_color=None)
         self.frame_left.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
@@ -62,10 +59,6 @@ class App(customtkinter.CTk):
                                                 command=self.show_routes)
         self.button_4.grid(pady=(20, 0), padx=(20, 20), row=2, column=0)
         
-        self.button_9 = customtkinter.CTkButton(master=self.frame_left,
-                                                text="Restart Airport",
-                                                command=self.restart_airport)
-        self.button_9.grid(pady=(20, 0), padx=(20, 20), row=3, column=0)
         self.button_10 = customtkinter.CTkButton(master=self.frame_left,
                                                 text=" BFS ",
                                                 command=self.bfs_airport)
@@ -108,7 +101,7 @@ class App(customtkinter.CTk):
         self.map_widget.grid(row=0, rowspan=1, column=1,  columnspan=4,sticky="nsew", padx=(30, 30), pady=(75, 30))
 
         self.entry = customtkinter.CTkEntry(master=self.frame_right,
-                                            placeholder_text="type origin")
+                                            placeholder_text="type origin/new country")
         self.entry.grid(row=0, column=0, sticky="we", padx=(20, 0), pady=12)
         self.entry.bind("<Return>", self.search_event)
         # returns allows to use enter to trigger event
@@ -149,7 +142,7 @@ class App(customtkinter.CTk):
         
         self.consola = customtkinter.CTkLabel(self.frame_right, text="Bienvenido a CityScape Odyssey", width=20, height=5)
         self.consola.grid(row=0, column=6, padx=(5, 0), pady=12 )
-        
+        # Consola is main label for events and error statements to user
     
         # Set default values
         self.map_widget.set_address("Colombia")
@@ -162,6 +155,10 @@ class App(customtkinter.CTk):
         
     ##conecta los puntos que coloque del mapa
     def add_airport(self,event=None):
+        """
+        Adds to graph a new aiport
+        in a new country
+        """
         try:
             country = self.entry.get()
             coords = self.newcoords.get()
@@ -172,13 +169,15 @@ class App(customtkinter.CTk):
             code = name_code.split(",")[1]
             city = name_code.split(",")[2]
 
+            # get data from boxes and do necessary splits
             try:
                 print(grafo[country].coords)
                 self.consola.configure(text="ya está el pais") 
+                # if found in graph cannot add country
             except:
                 grafo.addAirport([name,city,country,code,lat,long])
                 self.consola.configure(text="se ha añadido un aeropuerto") 
-
+                # else add airport and marker
 
                 x = self.map_widget.set_marker(float(lat),float(long),text=country)
                 self.markers_dict.update({country:x})
@@ -187,6 +186,10 @@ class App(customtkinter.CTk):
             self.consola.configure(text="Faltan datos")  
 
     def dfs_airport(self):
+        """
+        gets start point and saves 
+        dfs path
+        """
         try:
             start = self.entry.get()
             self.vertices = grafo.dfs(start)
@@ -194,12 +197,18 @@ class App(customtkinter.CTk):
         except:
             self.consola.configure(text="Ingrese pais de inicio")
     def show_dfs(self):
+        """
+        shows with delay each vertix in dfs
+        """
         if len(self.vertices)!=0:
-            current_word = self.vertices.pop(0)
-            self.consola.configure(text=current_word)
-            self.after(750, self.show_dfs)
+            current_word = self.vertices.pop(0) # get first 
+            self.consola.configure(text=current_word) # show
+            self.after(750, self.show_dfs) # repeat after delay
 
     def bfs_airport(self):
+        """
+        gets start point and saves BFS
+        """
         try:
             start = self.entry.get()
             self.vertices = grafo.bfs(start)
@@ -208,6 +217,9 @@ class App(customtkinter.CTk):
             self.consola.configure(text="Ingrese pais de inicio")
 
     def show_bfs(self):
+        """
+        shows with delay each vertix in bfs
+        """
         if len(self.vertices)!=0:
             current_word = self.vertices.pop(0)
             self.consola.configure(text=current_word)
@@ -227,35 +239,30 @@ class App(customtkinter.CTk):
         
         current_position = self.map_widget.get_position()
         self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1])) """
-        
-       
-        
-    def connect_marker(self):
-        print(self.marker_list)
-        position_list = []
-
-        for marker in self.marker_list:
-            position_list.append(marker.position)
-
-        if self.marker_path is not None:
-            self.map_widget.delete(self.marker_path)
-
-        if len(position_list) > 0:
-            self.marker_path = self.map_widget.set_path(position_list)
-   
-      
+          
     def search_event(self, event=None):
+        """
+        Allows map to move into position
+        of searched country
+        """
         try:
             country = self.entry.get()
+            # get country name
             x = grafo[country].coords[0]
             y = grafo[country].coords[1]
+            # get coords from graph
             address = f"{x} {y}"
             self.map_widget.set_address(address, marker=False)
+            #set address of map to the coords
             self.consola.configure(text=f"{grafo[country].name} ({grafo[country].code})")
+            # show name and code
         except:
             self.consola.configure(text="País no valido/espacio vacío")
     
     def search_event2(self, event=None):
+        """
+        as search_event but for another entry
+        """
         try:
             country = self.entry2.get()
             x = grafo[country].coords[0]
@@ -265,11 +272,6 @@ class App(customtkinter.CTk):
             self.consola.configure(text=f"{grafo[country].name} {grafo[country].code}")
         except:
             self.consola.configure(text="País no valido/espacio vacío")
-
-    def clear_marker_event(self):
-        for marker in self.marker_list:
-            marker.delete()
-            self.name_cities=[]
 
     def change_appearance_mode(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
@@ -324,17 +326,21 @@ class App(customtkinter.CTk):
         map and graph
         """
         try:
-            address = self.entry0.get()
-            
-            grafo.deleteAirport(address)
-            self.markers_dict[address].delete()
-            self.map_widget.delete_all_path()
+            address = self.entry0.get() # get string from entry box
+            grafo.deleteAirport(address) # calls graph method
+            self.markers_dict[address].delete() # deletes from record
+            self.map_widget.delete_all_path() # deletes paths shown
         except:
             self.consola.configure(text="Escriba país en mapa") 
             
             
 
     def change_map(self, new_map: str):
+        """
+        Changes how map is shown 
+        uses standard methods of
+        tkintermapview
+        """
         if new_map == "OpenStreetMap":
             self.map_widget.set_tile_server("https://a.tile.openstreetmap.org/{z}/{x}/{y}.png")
         elif new_map == "Google normal":
@@ -343,15 +349,22 @@ class App(customtkinter.CTk):
             self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
 
     def on_closing(self, event=0):
+        """
+        event of closing the app
+        """
         self.destroy()
 
     def start(self):
+        """
+        adds markers for all airports
+        in graph
+        """
         for airport in grafo.vertices.values():
             x = self.map_widget.set_marker(float(airport.coords[0]),float(airport.coords[1]),text=airport.country)
             self.markers_dict.update({airport.country:x})
-        # set a position marker (also with a custom color and command on click)
+        # set a position marker and add to dict
         self.mainloop()
-
+        # continuously happens
 
 if __name__ == "__main__":
     app = App()

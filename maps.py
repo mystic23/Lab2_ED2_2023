@@ -2,6 +2,8 @@ import tkinter
 import tkintermapview
 from drivercode1 import grafo
 
+# first version of GUI
+
 # create tkinter window
 root_tk = tkinter.Tk()
 root_tk.geometry(f"{1200}x{700}+{250}+{50}")
